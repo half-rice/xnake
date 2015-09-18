@@ -10,32 +10,43 @@ green = (0,255,0)
 gameDisplay = pygame.display.set_mode((800,600))
 pygame.display.set_caption('xnake')
 
-lead_x = 300
-lead_y = 300
+rx = 300
+ry = 300
+xspeed = 0
+yspeed = 0
+
+clock = pygame.time.Clock()
 
 run = True 
 while run:
   for event in pygame.event.get():
     if event.type == pygame.QUIT:
       run = False;
+
     if event.type == pygame.KEYDOWN:
       if event.key == pygame.K_UP:
-        lead_y -= 10
+        yspeed -= 10
       if event.key == pygame.K_DOWN:
-        lead_y += 10
+        yspeed += 10
       if event.key == pygame.K_LEFT:
-        lead_x -= 10
+        xspeed = -10
       if event.key == pygame.K_RIGHT:
-        lead_x += 10
+        xspeed = 10
 
+    if event.type == pygame.KEYUP:
+      if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
+        xspeed = 0
+      if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
+        yspeed = 0
 
+  rx += xspeed
+  ry += yspeed
 
   gameDisplay.fill(white)
-  pygame.draw.rect(gameDisplay, black, [lead_x,lead_y,10,10])
-
-  gameDisplay.fill(red, rect=[200,200,50,50])
+  pygame.draw.rect(gameDisplay, black, [rx,ry,10,10])
 
   pygame.display.update()
+  clock.tick(15)
 
 pygame.quit()
 quit()
