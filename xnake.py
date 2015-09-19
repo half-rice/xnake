@@ -19,9 +19,12 @@ green = (0,255,0)
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('xnake')
 
+def xnake(x,y,block):
+  pygame.draw.rect(gameDisplay, green, [x,y,block,block])
+
 def msg(msg, color):
   screen_text = font.render(msg, True, color)
-  gameDisplay.blit(screen_text, [display_width/2,display_height/2])
+  gameDisplay.blit(screen_text, [abs(display_width/3),abs((display_height/2)-block*3)])
 
 def game():
   gameExit = 0
@@ -32,6 +35,9 @@ def game():
   y = display_height/2
   x_change = 0
   y_change = 0
+
+  applex = round(random.randrange(0, display_width-block)/10.0)*10.0
+  appley = round(random.randrange(0, display_height-block)/10.0)*10.0
 
   while not gameExit:
     while gameOver == 1:
@@ -71,9 +77,13 @@ def game():
     x += x_change
     y += y_change
 
-    gameDisplay.fill(white)
-    pygame.draw.rect(gameDisplay, black, [x,y,10,10])
+    if x == applex and y == appley:
+      applex = round(random.randrange(0, display_width-block)/10.0)*10.0
+      appley = round(random.randrange(0, display_height-block)/10.0)*10.0
 
+    gameDisplay.fill(black)
+    pygame.draw.rect(gameDisplay, red, [applex,appley,block,block])
+    xnake(x,y,block)
     pygame.display.update()
     clock.tick(fps)
 
