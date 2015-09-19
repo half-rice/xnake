@@ -1,5 +1,6 @@
 import pygame
 import random
+import makeBall
 
 pygame.init()
 screen_width = 1920/2
