@@ -6,8 +6,8 @@ pygame.init()
 
 display_width = 1920/2
 display_height = 1080/2
-fps = 30
-block = 10
+fps = 20
+block = 20
 clock = pygame.time.Clock()
 font = pygame.font.SysFont(None, 32)
 
@@ -19,8 +19,9 @@ green = (0,255,0)
 gameDisplay = pygame.display.set_mode((display_width,display_height))
 pygame.display.set_caption('xnake')
 
-def xnake(x,y,block):
-  pygame.draw.rect(gameDisplay, green, [x,y,block,block])
+def xnake(block, xnakelist):
+  for i in xnakelist:
+    pygame.draw.rect(gameDisplay, green, [i[0],i[1],block,block])
 
 def msg(msg, color):
   screen_text = font.render(msg, True, color)
@@ -36,8 +37,12 @@ def game():
   x_change = 0
   y_change = 0
 
-  applex = round(random.randrange(0, display_width-block)/10.0)*10.0
-  appley = round(random.randrange(0, display_height-block)/10.0)*10.0
+  xnakelist = []
+  xnakelen = 10
+  appleblock = 30
+
+  applex = round(random.randrange(0, display_width-block)) #/10.0)*10.0
+  appley = round(random.randrange(0, display_height-block)) #/10.0)*10.0
 
   while not gameExit:
     while gameOver == 1:
@@ -46,10 +51,14 @@ def game():
       pygame.display.update()
 
       for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+          gameOver = 0
+          gameExit = 1
+
         if event.type == pygame.KEYDOWN:
           if event.key == pygame.K_q:
-            gameExit = 1
             gameOver = 0
+            gameExit = 1
           if event.key == pygame.K_c:
             game()
 
@@ -77,13 +86,35 @@ def game():
     x += x_change
     y += y_change
 
-    if x == applex and y == appley:
-      applex = round(random.randrange(0, display_width-block)/10.0)*10.0
-      appley = round(random.randrange(0, display_height-block)/10.0)*10.0
+    '''
+    if x >= applex and x <= applex+appleblock:j
+      if y >= appley and y <= appley+appleblock:
+        applex = round(random.randrange(0, display_width-block)) #/10.0)*10.0
+        appley = round(random.randrange(0, display_height-block)) #/10.0)*10.0
+        xnakelen += 1
+    '''
+    if x > applex and x < applex+appleblock or x+block > applex and x+block < applex+appleblock:
+      if y > appley and y < appley+appleblock or y+block > appley and y+block < appley+appleblock:
+        applex = round(random.randrange(0, display_width-block)) #/10.0)*10.0
+        appley = round(random.randrange(0, display_height-block)) #/10.0)*10.0
+        xnakelen += 1
+      elif y+block > appley and y+block < appley+appleblock:
+        applex = round(random.randrange(0, display_width-block)) #/10.0)*10.0
+        appley = round(random.randrange(0, display_height-block)) #/10.0)*10.0
+        xnakelen += 1
 
     gameDisplay.fill(black)
-    pygame.draw.rect(gameDisplay, red, [applex,appley,block,block])
-    xnake(x,y,block)
+    pygame.draw.rect(gameDisplay, red, [applex,appley,appleblock,appleblock])
+
+    xnakehead = []
+    xnakehead.append(x)
+    xnakehead.append(y)
+    xnakelist.append(xnakehead)
+    if len(xnakelist) > xnakelen:
+      del xnakelist[0]
+
+    xnake(block,xnakelist)
+
     pygame.display.update()
     clock.tick(fps)
 
