@@ -28,10 +28,9 @@ class Ball(object):
   def __init__(self):
     self.x = screen_width/2
     self.y = screen_height/2
-    self.x_speed = random.randint(1,5)
-    self.y_speed = self.x_speed
+    self.speed = random.randint(1,5)
     self.color = (random.randint(255,255),random.randint(0,0),random.randint(136,255))
-    self.pos = (random.randint(0,screen_width),random.randint(0,screen_height))
+    self.pos = (self.x,self.y)
     self.radius = 10
 
     balls.append(self)
@@ -53,17 +52,9 @@ while run:
 
     if event.type == pygame.KEYDOWN:
       if event.key == pygame.K_UP:
-        y_change -= 10
-        x_change = 0
       elif event.key == pygame.K_DOWN:
-        y_change += 10
-        x_change = 0
       elif event.key == pygame.K_LEFT:
-        x_change = -10
-        y_change = 0
       elif event.key == pygame.K_RIGHT:
-        x_change = 10
-        y_change = 0
 
     #if event.type == pygame.KEYUP:
     #  if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
@@ -71,11 +62,21 @@ while run:
     #  if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
     #    y_change = 0
 
+  for ball in balls:
+    if ball.x >= 5 and ball.x <= screen_width-5:
+      ball.x += ball.speed
+    else:
+      ball.x -+ ball.speed
+    if ball.y >= 5 and ball.y <= screen_height-5:
+      ball.y += ball.speed
+    else:
+      ball.y -= ball.speed
+
 
   gameDisplay.fill(black)
 
   for ball in balls:
-    pygame.draw.circle(gameDisplay, ball.color, ball.pos, ball.radius)
+    pygame.draw.circle(gameDisplay, ball.color, (ball.x,ball.y), ball.radius)
     #pygame.draw.circle(gameDisplay, red, (60,60), 10)
 
   pygame.display.update()
