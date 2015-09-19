@@ -1,24 +1,48 @@
 import pygame
+import random
 
 pygame.init()
+screen_width = 1920/2
+screen_height = 1080/2
 
 white = (255,255,255)
 black = (0,0,0)
 red = (255,0,0)
 green = (0,255,0)
 
-gameDisplay = pygame.display.set_mode((800,600))
+gameDisplay = pygame.display.set_mode((screen_width,screen_height))
 pygame.display.set_caption('xnake')
-
-x = 300
-y = 300
-x_change = 0
-y_change = 0
 
 clock = pygame.time.Clock()
 
 balls = []
-for i in range(50):
+def makeBall():
+  ball = Ball()
+  return ball
+
+class Ball(object):
+  color = (0,0,0)
+  pos = 0
+  radius = 0
+
+  def __init__(self):
+    self.x = screen_width/2
+    self.y = screen_height/2
+    self.x_speed = random.randint(1,5)
+    self.y_speed = self.x_speed
+    self.color = (random.randint(255,255),random.randint(0,0),random.randint(136,255))
+    self.pos = (random.randint(0,screen_width),random.randint(0,screen_height))
+    self.radius = 10
+
+    balls.append(self)
+
+  def getColor():
+    return color
+
+  def setColor(color):
+    self.color = color
+
+for i in range(200):
   makeBall() 
 
 run = True 
@@ -47,16 +71,8 @@ while run:
     #  if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
     #    y_change = 0
 
-  if x_change >= 800 or x_change == 0 or y_change >= 600 or y_change == 0:
-    x_change *= -1
-    y_change *= -1
 
-
-  x += x_change
-  y += y_change
-
-  gameDisplay.fill(white)
-  pygame.draw.rect(gameDisplay, black, [x,y,10,10])
+  gameDisplay.fill(black)
 
   for ball in balls:
     pygame.draw.circle(gameDisplay, ball.color, ball.pos, ball.radius)
@@ -65,27 +81,7 @@ while run:
   pygame.display.update()
   clock.tick(15)
 
-def makeBall():
-  ball = Ball()
-  return ball
 
-class Ball(object):
-  color = (0,0,0)
-  pos = 0
-  radius = 0
-
-  def __init__(self):
-    self.color = (randint(60,90),randint(100,140),randint(50,80))
-    self.pos = (randint(0,800),(0,600))
-    self.radius = 5
-
-    balls.append(self)
-
-  def getColor():
-    return color
-
-  def setColor(color):
-    self.color = color
 
 pygame.quit()
 quit()
