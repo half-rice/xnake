@@ -15,6 +15,22 @@ pygame.display.set_caption('xnake')
 
 clock = pygame.time.Clock()
 
+def pulse(r,g,b):
+  self.r = r
+  self.g = g
+  self.b = b
+
+  self.rr = r-12
+  self.bb = b-24
+  if self.rr+1 <= r:
+    self.rr += 1
+    self.bb += 2
+  elif self.r+1 > r:
+    self.rr = r 
+    self.bb = b
+
+  return(self.rr,self.g,self.bb)
+
 balls = []
 def makeBall():
   ball = Ball()
@@ -36,13 +52,7 @@ class Ball(object):
 
     balls.append(self)
 
-  def getColor():
-    return color
-
-  def setColor(color):
-    self.color = color
-
-for i in range(50):
+for i in range(16):
   makeBall() 
 
 run = True 
@@ -74,6 +84,8 @@ while run:
       ball.y_speed *= -1
     ball.x += ball.x_speed
     ball.y += ball.y_speed
+    print ball.color
+    ball.color = pulse(ball.color[0],ball.color[1],ball.color[2])
 
 
   gameDisplay.fill(black)
