@@ -16,22 +16,6 @@ pygame.display.set_caption('xnake')
 
 clock = pygame.time.Clock()
 
-def pulse(r,g,b):
-  self.r = r
-  self.g = g
-  self.b = b
-
-  self.rr = r-12
-  self.bb = b-24
-  if self.rr+1 <= r:
-    self.rr += 1
-    self.bb += 2
-  elif self.r+1 > r:
-    self.rr = r 
-    self.bb = b
-
-  return(self.rr,self.g,self.bb)
-
 balls = []
 def makeBall():
   ball = Ball()
@@ -45,15 +29,15 @@ class Ball(object):
   def __init__(self):
     self.x = screen_width/2
     self.y = screen_height/2
-    self.x_speed = random.randint(3,7)
-    self.y_speed = random.randint(3,7)
+    self.x_speed = 1+random.randint(-8,6)
+    self.y_speed = 1+random.randint(-8,6)
     self.color = (random.randint(255,255),random.randint(0,0),random.randint(136,255))
     self.pos = (self.x,self.y)
     self.radius = 10
 
     balls.append(self)
 
-for i in range(16):
+for i in range(500):
   makeBall() 
 
 run = True 
@@ -79,15 +63,13 @@ while run:
     #    y_change = 0
 
   for ball in balls:
+
     if ball.x <= 5 or ball.x >= screen_width-5:
       ball.x_speed *= -1 
     if ball.y <= 5 or ball.y >= screen_height-5:
       ball.y_speed *= -1
     ball.x += ball.x_speed
     ball.y += ball.y_speed
-    print ball.color
-    ball.color = pulse(ball.color[0],ball.color[1],ball.color[2])
-
 
   gameDisplay.fill(black)
 
