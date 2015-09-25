@@ -37,7 +37,7 @@ class Ball(object):
 
     balls.append(self)
 
-for i in range(500):
+for i in range(20):
   makeBall() 
 
 run = True 
