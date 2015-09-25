@@ -12,7 +12,7 @@ red = (255,0,0)
 green = (0,255,0)
 
 gameDisplay = pygame.display.set_mode((screen_width,screen_height))
-pygame.display.set_caption('xnake')
+pygame.display.set_caption('balls')
 
 clock = pygame.time.Clock()
 
@@ -37,7 +37,11 @@ class Ball(object):
 
     balls.append(self)
 
-for i in range(20):
+def makePlayer():
+  player = PlayerBall()
+  return player
+
+for i in range(100):
   makeBall() 
 
 run = True 
