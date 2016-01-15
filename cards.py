@@ -27,9 +27,8 @@ class Deck(object):
     for j in range(4):
       for i in range(13):
         self.deck.append(Card(i, j+1))
-    self.shuffle()
 
-  def deck_len(self):
+  def get_len(self):
     return len(self.deck)
 
   def get_card(self, pos):  # pos = position in deck
@@ -37,7 +36,10 @@ class Deck(object):
 
 d = Deck()
 d.build()
-dl = d.deck_len()
+d.shuffle()
+dl = d.get_len()
 
 for i in range(1, dl):
   d.get_card(i).print_card()
+
+d.destroy()
